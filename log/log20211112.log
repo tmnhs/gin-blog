@@ -1,0 +1,4 @@
+time="2021-11-12 23:12:35" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=47 HostName=LAPTOP-QBGCU5AD Ip=127.0.0.1 Method=POST Path=/api/v1/register SpendTime="318 ms" status=200
+time="2021-11-12 23:12:53" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=27 HostName=LAPTOP-QBGCU5AD Ip=127.0.0.1 Method=POST Path=/api/v1/register SpendTime="1573 ms" status=200
+time="2021-11-12 23:13:32" level=info Agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" DataSize=27 HostName=LAPTOP-QBGCU5AD Ip="::1" Method=GET Path="/api/v1/active?code=9c00561e-fd05-4d0a-9dd7-77bdfcb393b6" SpendTime="317 ms" status=200
+time="2021-11-12 23:13:32" level=warning Agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" DataSize=0 HostName=LAPTOP-QBGCU5AD Ip="::1" Method=GET Path=/favicon.ico SpendTime="0 ms" status=404
