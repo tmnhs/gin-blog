@@ -262,7 +262,6 @@ export default {
           this.$refs.addUserRef.validate(async (valid)=>{
               if(!valid)return this.$message.error("输入不符合要求，请重新输入")
               const {data:result}= await this.$http.post('user/add',this.userInfo)
-              console.log(result)
               if(result.status!=200)return this.$message.error(result.message)
               this.$message.success("添加成功")
               this.addUserVisible=false
@@ -290,7 +289,6 @@ export default {
       editUserOk(){
             this.$refs.editUserRef.validate(async (valid)=>{
               if(!valid)return this.$message.error("输入不符合要求，请重新输入")
-              console.log(this.userInfo.role)
               const {data:result}= await this.$http.post("user/update",this.userInfo)
               if(result.status!=200)return this.$message.error(result.message)
               this.$message.success("用户信息更新成功")

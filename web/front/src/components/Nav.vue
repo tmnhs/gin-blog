@@ -69,10 +69,10 @@ export default {
     },
     methods:{
         async getProfile(){
-             const{data:result} = await this.$http.get(`profile/${this.profileInfo.id}`)
-             if (result.status!=200) return this.$message.error(result.message)
+             const{data:result} = await this.$http.get(`profile`)
+             if (result.status!=200) return 
              this.profileInfo=result.data
-             console.log(this.profileInfo)
+            //  console.log(this.profileInfo)
          },
     }
 }

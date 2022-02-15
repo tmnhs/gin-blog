@@ -71,7 +71,7 @@ func GetArticles(title string, pageSize int, pageNum int) ([]Article, int, int) 
 	if title != "" {
 		DB = DB.Where("title like ?", "%"+title+"%")
 	}
-	err = DB.Debug().Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&articles).Error
+	err = DB.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&articles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR, 0
 	}
@@ -87,13 +87,13 @@ func GetArticles(title string, pageSize int, pageNum int) ([]Article, int, int) 
 func GetCateArticle(id int, pageSize int, pageNum int) ([]Article, int, int) {
 	var cateArticleList []Article
 	var total int
-	DB:=db.Model(&Article{})
+	DB := db.Model(&Article{})
 	if id > 0 {
-		DB=DB.Where("cid = ?", id)
+		DB = DB.Where("cid = ?", id)
 	}
-	err := DB.Debug().Limit(pageSize).Offset((pageNum-1)*pageSize).Find(&cateArticleList).Error
+	err := DB.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&cateArticleList).Error
 	//查找总数
-	_ = DB.Debug().Count(&total).Error
+	_ = DB.Count(&total).Error
 	if err != nil {
 		return cateArticleList, errmsg.ERROR_CATE_NOT_EXIST, 0
 	}

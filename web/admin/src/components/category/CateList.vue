@@ -174,7 +174,6 @@ export default {
           this.$refs.addCateRef.validate(async (valid)=>{
               if(!valid)return this.$message.error("输入不符合要求，请重新输入")
               const {data:result}= await this.$http.post('category/add',this.CateInfo)
-              console.log(result)
               if(result.status!=200)return this.$message.error(result.message)
               this.$message.success("添加成功")
               this.addCateVisible=false

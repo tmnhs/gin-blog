@@ -29,9 +29,8 @@ export default {
         //查询文章基本信息
         async getArtInfo(){
             const {data:result}=await this.$http.get(`article/info/${this.id}`)
-             if (result.status!=200) return this.$message.error(result.message)
+             if (result.status!=200) return 
             this.articleInfo=result.data
-            console.log(result.data)
         }
     }
 }

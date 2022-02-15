@@ -146,7 +146,6 @@ export default {
       async findArticle(){
              this.querydata.pagesize=this.paginationOption.defaultPageSize
              this.querydata.pagenum=1
-             console.log(this.querydata)
              const{data:result} = await this.$http.post('articles',this.querydata)
              if (result.status!=200) return this.$message.error(result.message)
              this.Articlelist=result.data

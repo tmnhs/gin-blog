@@ -19,8 +19,10 @@
                  <a-form-model-item label="文章缩略图" prop="img" >
                      <a-upload
                          name="file"
+                         :multiple="false"
                         :action="upUrl"
                         :headers="headers"
+                        @change="uploadChange"
                         listType="picture"
                         >
                          <a-button> <a-icon type="upload" /> 点击上传 </a-button>
@@ -35,7 +37,7 @@
                 </a-form-model-item>
                  <a-form-model-item >
                     <a-button type="danger" style="margin-right:15px" @click="artOk(articleInfo.id)">
-                        {{articleInfo.id?'更新':'提交'}} 
+                        {{articleInfo.id?'更新':'提交'}}
                     </a-button>
                     <a-button type="primary" @click="artCancel"> 取消</a-button>
                 </a-form-model-item>
@@ -63,7 +65,7 @@ export default {
                 img:'',
             },
             Catelist:[],
-            upUrl:Url+'upload',
+            upUrl:Url+'/upload',
             headers:{},
             articleInfoRules:{
                     title:[{required:true,message:'请输入文章标题',tirgger:'blur'}],
@@ -102,11 +104,11 @@ export default {
       uploadChange(info){
            if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);
-                const imgUrl = info.file.response.url
-                this.articleInfo.img=imgUrl
          }
             if (info.file.status === 'done') {
                 this.$message.success("图片上传成功");
+                const imgUrl = info.file.response.url
+                this.articleInfo.img=imgUrl
             } else if (info.file.status === 'error') {
                 this.$message.error("图片上传失败");
             }
@@ -132,7 +134,7 @@ export default {
         artCancel(){
             this.$refs.articleInfoRef.resetFields()
             this.$router.push('/artlist')
-            
+
         }
     },
 }

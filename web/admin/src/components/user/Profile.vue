@@ -22,8 +22,9 @@
                     <a-input v-model="profileInfo.email" style="width:300px"></a-input>
                 </a-form-model-item>
                  <a-form-model-item label="头像">
-                     <a-upload
+                     <a-upload 
                          name="file"
+                         :multiple="false"
                         :action="upUrl"
                         :headers="headers"
                         listType="picture"
@@ -39,6 +40,7 @@
                    <a-form-model-item label="头像背景">
                      <a-upload
                          name="file"
+                         :multiple="false"
                         :action="upUrl"
                         :headers="headers"
                         listType="picture"
@@ -52,7 +54,7 @@
                      </a-upload>
                 </a-form-model-item>
                  <a-form-model-item >
-                    <a-button type="danger" style="margin-right:15px" @click="updateProfile(profileInfo.id)">
+                    <a-button type="danger" style="margin-right:15px" @click="updateProfile()">
                       更新
                     </a-button>
                 </a-form-model-item>
@@ -68,7 +70,7 @@ export default {
     data(){
         return{
             profileInfo:{
-                id:1,
+                id:0,
                 name:'',
                 desc:'',
                 qq_chat:'',
@@ -78,7 +80,7 @@ export default {
                 img:'',
                 avatar:'',
             },
-            upUrl:Url+'upload',
+            upUrl:Url+'/upload',
             headers:{},
         }
     },
@@ -88,37 +90,36 @@ export default {
     },
     methods:{
           async getProfile(){
-             const{data:result} = await this.$http.get(`profile/${this.profileInfo.id}`)
+             const{data:result} = await this.$http.get(`profile`)
              if (result.status!=200) return this.$message.error(result.message)
              this.profileInfo=result.data
-             console.log(this.profileInfo)
          },
-         avatarChange(){
+         avatarChange(info){
                 if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-                const imgUrl = info.file.response.url
-                this.profileInfo.avatar=imgUrl
+                 console.log(info.file, info.fileList);
                   }
                 if (info.file.status === 'done') {
+                     const imgUrl = info.file.response.url
+                      this.profileInfo.avatar=imgUrl
                     this.$message.success("图片上传成功");
                 } else if (info.file.status === 'error') {
                     this.$message.error("图片上传失败");
                 }
             },
-              imgChange(){
+            imgChange(info){
                 if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);
-                const imgUrl = info.file.response.url
-                this.profileInfo.img=imgUrl
-                  }
+ }
                 if (info.file.status === 'done') {
+                    const imgUrl = info.file.response.url
+                     this.profileInfo.img=imgUrl
                     this.$message.success("图片上传成功");
                 } else if (info.file.status === 'error') {
                     this.$message.error("图片上传失败");
                 }
             },
-            async updateProfile(id){
-                const{data:result} = await this.$http.put(`profile/${id}`,this.profileInfo)
+            async updateProfile(){
+                const{data:result} = await this.$http.put(`profile`,this.profileInfo)
                 if (result.status!=200) return this.$message.error(result.message)
                 this.profileInfo=result.data
                 this.$router.push('/index')

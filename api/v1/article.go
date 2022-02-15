@@ -4,7 +4,6 @@ import (
 	"demo1/MyBlog/model"
 	"demo1/MyBlog/proto"
 	"demo1/MyBlog/utils/errmsg"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -22,14 +21,11 @@ func AddArticle(c *gin.Context) {
 	_ = c.ShouldBind(&data)
 	code := model.CreateArticle(&data)
 
-	userArticle.ArticleId= data.ID
+	userArticle.ArticleId = data.ID
 
-	userName, _ :=c.Get("username")
-	//fmt.Printf("%T\n",username)
-	//fmt.Println(username)
-	userArticle.UserId =model.FindUserIdByName(userName)
-	fmt.Println(userArticle)
-	_= model.CreateUserArticle(&userArticle)
+	userName, _ := c.Get("username")
+	userArticle.UserId = model.FindUserIdByName(userName)
+	_ = model.CreateUserArticle(&userArticle)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -37,36 +33,39 @@ func AddArticle(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 // todo 添加评论
-func AddComment(c * gin.Context)  {
+func AddComment(c *gin.Context) {
 	var data model.Comment
-	_=c.ShouldBindJSON(&data)
-	id:=data.ArticleID
+	_ = c.ShouldBindJSON(&data)
+	id := data.ArticleID
 
-	code:=model.CreateComment(id,data)
+	code := model.CreateComment(id, data)
 
-	c.JSON(http.StatusOK,gin.H{
-		"status":code,
-		"data":data,
-		"message":errmsg.GetErrMsg(code),
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 //todo 删除评论
-func DeleteComment(c * gin.Context){
-	id,_:=strconv.Atoi(c.Param("id"))
+func DeleteComment(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
 
-	code:=model.DeleteComment(id)
+	code := model.DeleteComment(id)
 
-	c.JSON(http.StatusOK,gin.H{
-		"status":code,
-		"message":errmsg.GetErrMsg(code),
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 //todo 查询单个文章
 func GetArticleInfo(c *gin.Context) {
-	id,_:=strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(c.Param("id"))
 
-	data,code:=model.GetArticleInfo(id)
+	data, code := model.GetArticleInfo(id)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -74,11 +73,12 @@ func GetArticleInfo(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 //todo 查询文章下的所有评论
-func GetComments(c *gin.Context)  {
-	id,_:=strconv.Atoi(c.Param("id"))
+func GetComments(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
 
-	data, code:=model.GetCommentsByArticleId(id)
+	data, code := model.GetCommentsByArticleId(id)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -86,85 +86,87 @@ func GetComments(c *gin.Context)  {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 //todo 查询某分类下的所有文章
-func GetCateArticle(c *gin.Context)  {
+func GetCateArticle(c *gin.Context) {
 	//获取参数
 	//var req proto.ReqCommon
-	id,_:=strconv.Atoi(c.Param("id"))
-	pageNum,_:=strconv.Atoi(c.Query("pagenum"))
-	pageSize,_:=strconv.Atoi(c.Query("pagesize"))
+	id, _ := strconv.Atoi(c.Param("id"))
+	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
+	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 
 	//_=c.ShouldBindJSON(&req)
-	if pageNum== 0 {
+	if pageNum == 0 {
 		pageNum = -1
 	}
-	if pageSize== 0 {
+	if pageSize == 0 {
 		pageSize = -1
 	}
 	//fmt.Println(req)
-	data,code,total:=model.GetCateArticle(id,pageSize,pageNum)
-	articles :=make([]*proto.RspFindArticle,0)
+	data, code, total := model.GetCateArticle(id, pageSize, pageNum)
+	articles := make([]*proto.RspFindArticle, 0)
 	for i := 0; i < len(data); i++ {
-		article:=&proto.RspFindArticle{
-			ID :data[i].ID,
-			Title  :data[i].Title,
+		article := &proto.RspFindArticle{
+			ID:        data[i].ID,
+			Title:     data[i].Title,
 			CreatedAt: data[i].CreatedAt,
-			Desc   :data[i].Desc,
-			Content :data[i].Content,
-			Img     :data[i].Img,
+			Desc:      data[i].Desc,
+			Content:   data[i].Content,
+			Img:       data[i].Img,
 		}
-		Cate,err:=model.FindCategoryById(data[i].Cid)
+		Cate, err := model.FindCategoryById(data[i].Cid)
 		if err != nil {
-			article.Name=""
-		}else{
-			article.Name=Cate.Name
+			article.Name = ""
+		} else {
+			article.Name = Cate.Name
 		}
-		articles=append(articles, article)
+		articles = append(articles, article)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    articles,
-		"total":total,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 //todo  查询文章列表
 func GetArticle(c *gin.Context) {
 	//获取参数
 	var req proto.ReqFindArticle
-	_=c.ShouldBindJSON(&req)
+	_ = c.ShouldBindJSON(&req)
 	//如果pageSize等于0，则取消分页
 	if req.PageSize == 0 {
-		req.PageSize  = -1
+		req.PageSize = -1
 	}
 	if req.PageNum == 0 {
-		req.PageNum  = -1
+		req.PageNum = -1
 	}
 	//调用函数查看所有用户
-	data ,code,total:= model.GetArticles(req.Title,req.PageSize,req.PageNum)
+	data, code, total := model.GetArticles(req.Title, req.PageSize, req.PageNum)
 
-	articles :=make([]*proto.RspFindArticle,0)
+	articles := make([]*proto.RspFindArticle, 0)
 	for i := 0; i < len(data); i++ {
-		article:=&proto.RspFindArticle{
-			ID :data[i].ID,
-			Title  :data[i].Title,
+		article := &proto.RspFindArticle{
+			ID:        data[i].ID,
+			Title:     data[i].Title,
 			CreatedAt: data[i].CreatedAt,
-			Desc   :data[i].Desc,
-			Content :data[i].Content,
-			Img     :data[i].Img,
+			Desc:      data[i].Desc,
+			Content:   data[i].Content,
+			Img:       data[i].Img,
 		}
-		Cate,err:=model.FindCategoryById(data[i].Cid)
+		Cate, err := model.FindCategoryById(data[i].Cid)
 		if err != nil {
-			article.Name=""
-		}else{
-			article.Name=Cate.Name
+			article.Name = ""
+		} else {
+			article.Name = Cate.Name
 		}
-		articles=append(articles, article)
+		articles = append(articles, article)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    articles,
-		"total":total,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }

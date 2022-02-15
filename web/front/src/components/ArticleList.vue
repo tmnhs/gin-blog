@@ -1,6 +1,6 @@
 <template>
         <v-col>
-                <v-card class="ma-3" v-for="item in Articlelist" :key="item.id" link @click="$router.push(`/detail/${item.id}`)">
+                <v-card class="ma-3" v-for="item in Articlelist" :key="item.id" link @click="$router.push(`/home/detail/${item.id}`)">
                         <v-row no-gutters>
                                 <v-col class="d-flex justify-center align-center mx-3" cols="2" >
                                        <v-img max-height="100" max-width="100" :src="item.img"></v-img> 
@@ -60,7 +60,7 @@ export default {
                     pagenum:this.querydata.pagenum
                 }
             })
-             if (result.status!=200) return this.$message.error(result.message)
+             if (result.status!=200) return 
              this.Articlelist=result.data
              this.total=result.total
       }

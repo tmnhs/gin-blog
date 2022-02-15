@@ -22,7 +22,7 @@ func InitRouter() {
 	r.GET("admin", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
-
+	//
 	//r.LoadHTMLGlob("static/front/index.html")
 	//r.Static("front/static","static/front/static")
 	//r.StaticFile("front/favicon.ico","static/front/favicon.ico")
@@ -65,7 +65,7 @@ func InitRouter() {
 		auth.POST("upload", v1.Upload)
 
 		//更新个人设置
-		auth.PUT("profile/:id", v1.UpdateProfile)
+		auth.PUT("profile", v1.UpdateProfile)
 	}
 
 	routeV1 := r.Group("api/v1")
@@ -100,7 +100,7 @@ func InitRouter() {
 		routeV1.GET("loginbyemail", v1.LoginByEmail)
 
 		//获取个人信息
-		routeV1.GET("profile/:id", v1.GetProfile)
+		routeV1.GET("profile", v1.GetProfile)
 	}
 
 	r.Run(utils.HttpPort)

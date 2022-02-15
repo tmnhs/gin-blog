@@ -8,18 +8,17 @@ import (
 	"demo1/MyBlog/model"
 	"demo1/MyBlog/proto"
 	"demo1/MyBlog/utils/errmsg"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
 //todo 查询用户详细信息（包括文章）
-func GetUserInfo(c *gin.Context)  {
+func GetUserInfo(c *gin.Context) {
 
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	 data,code:=model.GetUserInfo(id)
+	data, code := model.GetUserInfo(id)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -27,6 +26,7 @@ func GetUserInfo(c *gin.Context)  {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
 //todo 添加用户
 func AddUser(c *gin.Context) {
 	var data proto.ReqAddUser
@@ -42,17 +42,23 @@ func AddUser(c *gin.Context) {
 	//	return
 	//}
 	//判断用户名是否存在
-	fmt.Println(data)
 	code = model.CheckUser(data.UserName)
 	if code == errmsg.SUCCESS {
-		user:=&model.User{
+		user := &model.User{
 			Username: data.UserName,
 			Password: data.Password,
-			Email: data.Email,
-			Role: data.Role,
-			Status: "N",
+			Email:    data.Email,
+			Role:     data.Role,
+			Status:   "Y",
 		}
-		code = model.CreateUser(user)
+		result, _ := model.CreateUser(user)
+		profile := &model.Profile{
+			ID:    int(result.ID),
+			Name:  result.Username,
+			Email: result.Email,
+		}
+		//fmt.Println("create user:",result)
+		code = model.CreateProfile(profile)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -66,25 +72,25 @@ func AddUser(c *gin.Context) {
 func GetUsers(c *gin.Context) {
 	//获取参数
 	var req proto.ReqFindUser
-	_=c.ShouldBindJSON(&req)
+	_ = c.ShouldBindJSON(&req)
 	//fmt.Println(req)
 	//如果pageSize等于0，则取消分页
-	if  req.PageSize== 0 {
+	if req.PageSize == 0 {
 		req.PageSize = -1
 	}
 	if req.PageNum == 0 {
-		req.PageNum= -1
+		req.PageNum = -1
 	}
 	//调用函数查看所有用户
-	data ,total,err1:= model.GetUsers(req.IdOrName,req.PageSize,req.PageNum)
+	data, total, err1 := model.GetUsers(req.IdOrName, req.PageSize, req.PageNum)
 	code := errmsg.SUCCESS
-	if err1!=nil{
-		code=errmsg.ERROR
+	if err1 != nil {
+		code = errmsg.ERROR
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
-		"total":total,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
@@ -95,11 +101,10 @@ func EditUser(c *gin.Context) {
 	var code int
 	//获取参数
 	_ = c.ShouldBindJSON(&req)
-
-	user,_:=model.GetUserInfo(req.Id)
-	if user.Username!=req.UserName{
-		code=model.CheckUser(req.UserName)
-		if code !=errmsg.SUCCESS{
+	user, _ := model.GetUserInfo(req.Id)
+	if user.Username != req.UserName {
+		code = model.CheckUser(req.UserName)
+		if code != errmsg.SUCCESS {
 			c.JSON(code, gin.H{
 				"status":  code,
 				"message": errmsg.GetErrMsg(code),
@@ -109,6 +114,19 @@ func EditUser(c *gin.Context) {
 	}
 	code = model.EditUser(req.Id, &req)
 
+	profileOld, _ := model.GetProfileById(req.Id)
+	profile := &model.Profile{
+		ID:     req.Id,
+		Name:   req.UserName,
+		Email:  req.Email,
+		Desc:   profileOld.Desc,
+		QqChat: profileOld.QqChat,
+		WeChat: profileOld.WeChat,
+		Weibo:  profileOld.Weibo,
+		Img:    profileOld.Img,
+		Avatar: profileOld.Avatar,
+	}
+	code = model.UpdateProfile(c, profile.ID, profile)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrMsg(code),
@@ -127,5 +145,3 @@ func DeleteUser(c *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
-
-

@@ -5,28 +5,28 @@ import (
 	"demo1/MyBlog/utils/errmsg"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 )
 
-func GetProfile(c * gin.Context)  {
-	id,_:=strconv.Atoi(c.Param("id"))
-	profile,code:=model.GetProfile(id)
-	c.JSON(http.StatusOK,gin.H{
-		"status":code,
-		"data":profile,
-		"message":errmsg.GetErrMsg(code),
+func GetProfile(c *gin.Context) {
+	profile, code := model.GetProfile(c)
+	//fmt.Println("profile",profile)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    profile,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
 
+func UpdateProfile(c *gin.Context) {
+	var req model.Profile
+	_ = c.ShouldBindJSON(&req)
 
-func UpdateProfile(c * gin.Context)  {
-	var profile model.Profile
-	id,_:=strconv.Atoi(c.Param("id"))
-	_=c.ShouldBindJSON(&profile)
-
-	code := model.UpdateProfile(id,&profile)
-	c.JSON(http.StatusOK,gin.H{
-		"status":code,
-		"message":errmsg.GetErrMsg(code),
+	profile, code := model.GetProfile(c)
+	req.ID = profile.ID
+	//fmt.Println("update profile",req)
+	code = model.UpdateProfile(c, req.ID, &req)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
 	})
 }

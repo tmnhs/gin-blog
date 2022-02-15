@@ -4,7 +4,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	//当做data
 	state:{
-        collapsed:false
+        // collapsed:false
 	},
 	//相当于计算属性
 	getters:{
