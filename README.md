@@ -64,7 +64,7 @@
 
 1-需要把config/config.ini里的文件配置(特别是数据库mysql的配置)修改成自己需要的配置，本项目使用七牛云对象存储上传的文件，你可以自己在七牛云注册一个账号，可以免费获赠10G的存储空间
 
-2-本项目可以直接在windows上运行，建议使用goland
+2-本项目可以直接在windows上运行，建议使用goland，可以将blog.sql导入数据库中，初始登录用户为admin,密码为123456
 
 3-[前台展示]（http://localhost:8080/front）和 [后台管理] (http://localhost:8080/admin) 的切换需要修改routes/router.go,打开相关注释即可
 
