@@ -77,8 +77,10 @@
 方式一：使用dockerfile部署(确保服务器上有下载docker)
 
 ```shell
-#在MyBlog目录下
-cd MyBlog
+#克隆项目
+git clone git@github.com:tmnhs/gin-blog.git
+#在gin-blog目录下
+cd gin-blog
 #docker编译镜像
 docker build -t myblog .
 #运行docker
@@ -89,8 +91,10 @@ docker run -p 8080:8080 -t --name myblog myblog
 方式二：使用脚本部署
 
 ```shell
-#在MyBlog目录下
-cd MyBlog
+#克隆项目
+git clone git@github.com:tmnhs/gin-blog.git
+#在gin-blog目录下
+cd gin-blog
 #必须在linux系统下
 #启动项目
 ./serve.sh start
