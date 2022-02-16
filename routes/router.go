@@ -16,19 +16,19 @@ func InitRouter() {
 	r.Use(middleware.Logger())
 	r.Use(middleware.Cors())
 	//这里是后台管理的页面加载
-	//r.LoadHTMLGlob("static/admin/index.html")
-	//r.Static("admin/static", "static/admin/static")
-	//r.StaticFile("admin/favicon.ico", "static/admin/favicon.ico")
-	//r.GET("admin", func(c *gin.Context) {
-	//	c.HTML(http.StatusOK, "index.html", nil)
-	//})
-	//这里是博客前台展示的页面加载，如需要可以打开，切记不可同时打开
-	r.LoadHTMLGlob("static/front/index.html")
-	r.Static("front/static", "static/front/static")
-	r.StaticFile("front/favicon.ico", "static/front/favicon.ico")
-	r.GET("front", func(c *gin.Context) {
+	r.LoadHTMLGlob("static/admin/index.html")
+	r.Static("admin/static", "static/admin/static")
+	r.StaticFile("admin/favicon.ico", "static/admin/favicon.ico")
+	r.GET("admin", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
+	//这里是博客前台展示的页面加载，如需要可以打开，切记不可同时打开
+	//r.LoadHTMLGlob("static/front/index.html")
+	//r.Static("front/static", "static/front/static")
+	//r.StaticFile("front/favicon.ico", "static/front/favicon.ico")
+	//r.GET("front", func(c *gin.Context) {
+	//	c.HTML(http.StatusOK, "index.html", nil)
+	//})
 	//设置中间件，以下操作需要用户权限（凭证）
 	auth := r.Group("api/v1")
 	auth.Use(middleware.JwtToken())

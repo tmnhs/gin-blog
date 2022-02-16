@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-let Url='http://localhost/api/v1'
+let Url='http://localhost:8080/api/v1'
 
 axios.defaults.baseURL=Url
 axios.defaults.withCredentials=true

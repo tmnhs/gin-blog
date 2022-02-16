@@ -8,7 +8,7 @@
                 </a-col>
             </a-row>
             <a-table
-                rowKey="ID"
+                rowKey="id"
                :columns="columns"
                :pagination='paginationOption'
                :dataSource="Catelist"
@@ -16,8 +16,8 @@
                 >
                     <template slot="action" slot-scope="data">
                         <div class="actionSlot">
-                        <a-button type="primary" style="margin-right:15px" @click="editCate(data.ID)">编辑</a-button>
-                        <a-button type="danger" @click="deleteCate(data.ID)">删除</a-button>
+                        <a-button type="primary" style="margin-right:15px" @click="editCate(data.id)">编辑</a-button>
+                        <a-button type="danger" @click="deleteCate(data.id)">删除</a-button>
                     </div>
                     </template>
                 </a-table>
@@ -199,7 +199,6 @@ export default {
               if(result.status!=200)return this.$message.error(result.message)
               this.$message.success("分类信息更新成功")
               this.editCateVisible=false
-              this.CateInfo.name=''
               this.getCateList()
           })
       },
