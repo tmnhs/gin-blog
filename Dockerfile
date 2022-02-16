@@ -1,6 +1,4 @@
-FROM golang:1.13 as builder
-
-MAINTAINER Jack <jack@163.com>
+FROM golang:1.16 as builder
 
 WORKDIR /build
 COPY . /build
@@ -19,3 +17,19 @@ VOLUME ["/data/log"]
 
 EXPOSE 80
 ENTRYPOINT ["./basic"]
+
+#FROM golang:latest
+#
+#MAINTAINER tmnhs
+#
+#RUN go env -w GO111MODULE=on
+#RUN go env -w GOPROXY=https://goproxy.cn,direct
+#
+#WORKDIR $GOPATH/src/myblog
+#COPY . $GOPATH/src/myblog
+#
+#RUN go build -o myblog .
+#
+#EXPOSE 80
+#
+#CMD ["./myblog"]
