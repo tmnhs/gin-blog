@@ -1,8 +1,9 @@
 ## 这是一个用gin框架和vue框架搭建一个简易博客前台展示和后台管理系统
 
 ### 博客前台展示页面
+
 <div align=center>
-<img src="http://tmnhs.top/Fp7b_S-Awx1_VXXKy1diFWQ_H-Qz" width=“100%” />
+<img src="http://tmnhs.top/Fs6or1nh7sHFHAWCGFJnIg_a0zQ1" width=“100%” />
 </div>
 
 ### 博客后台管理页面
