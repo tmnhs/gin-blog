@@ -1,15 +1,16 @@
-##这是一个用gin框架和vue框架搭建一个简易博客前台展示和后台管理系统
+## 这是一个用gin框架和vue框架搭建一个简易博客前台展示和后台管理系统
 
-###博客前台展示页面
+### 博客前台展示页面
 <div align=center>
 <img src="http://tmnhs.top/Fp7b_S-Awx1_VXXKy1diFWQ_H-Qz" width=“100%” />
 </div>
 
-###博客后台管理页面
+### 博客后台管理页面
 <div align=center>
 <img src="http://tmnhs.top/FvtitX9vqMyYNDHaYpgH7dq8vg46" width=“100%” />
 </div>
-###一.技术选型
+
+### 一.技术选型
 -前端：用基于vue的``ant design vue``构建后台管理页面和基于vue的``vuetify``构建前台展示页面。
 
 -后端：用``Gin``快速搭建基础restful风格API，Gin是一个go语言编写的Web框架。
@@ -20,7 +21,8 @@
 
 -日志：使用``logrus``实现日志记录。
 
-###二.项目结构
+### 二.项目结构
+
 ```shell
 ├── api
 │       └── v1
@@ -57,7 +59,7 @@
 | `--admin`     | admin     | 后台管理的前端代码        |
 | `--front`     | front     | 前台展示的前端代码        |
 
-###三.使用说明
+###  三.使用说明
 
 1-需要把config/config.ini里的文件配置(特别是数据库mysql的配置)修改成自己需要的配置，本项目使用七牛云对象存储上传的文件，你可以自己在七牛云注册一个账号，可以免费获赠10G的存储空间
 
@@ -69,7 +71,7 @@
 
 5-本项目是前后端分离项目，可以注释掉routes/router.go中加载静态资源的代码，把后端代码运行起来，然后在web/admin(或者web/front)目录下，运行`npm run serve`即可
 
-###四.部署项目（Linux系统下）
+###  四.部署项目（Linux系统下）
 
 方式一：使用dockerfile部署(确保服务器上有下载docker)
 
